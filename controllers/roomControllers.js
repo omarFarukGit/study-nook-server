@@ -80,14 +80,30 @@ const createRoomUser = async (req, res) => {
 };
 
 const getRoomUser = async (req, res) => {
-  const { userId } = req.params;
+  const { id } = req.params;
   console.log(req.params);
 
   try {
-    const result = await RoomModel.find({ userId: "u006" });
+    const result = await RoomModel.find({ userId: id });
     res.status(200).json({
       success: true,
       message: "user room get successfully",
+      data: await result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      error: error,
+    });
+  }
+};
+
+const updateRoomUser = async (req, res) => {
+  try {
+    res.status(200).json({
+      success: true,
+      message: "user room update by user successfully",
       data: result,
     });
   } catch (error) {
@@ -104,4 +120,5 @@ export const roomControllers = {
   getSingleRoom,
   createRoomUser,
   getRoomUser,
+  updateRoomUser,
 };

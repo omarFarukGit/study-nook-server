@@ -7,5 +7,6 @@ router.get("/", roomControllers.getAllRoom);
 router.get("/:id", roomControllers.getSingleRoom);
 router.post("/", roomControllers.createRoomUser);
 router.get("/user-room/:id", roomControllers.getRoomUser);
+router.patch("/user-room/:id", roomControllers.getRoomUser);
 
 export const RoomRouter = router;
