@@ -131,10 +131,42 @@ const updateRoomUser = async (req, res) => {
   }
 };
 
+const deleteUserRoom = async (req, res) => {
+  const { userId, id } = req.params;
+  console.log("userId:", userId, "id", id);
+
+  try {
+    const deleteUserRoom = await RoomModel.findByIdAndDelete({
+      userId: userId,
+      _id: id,
+    });
+
+    if (!deleteUserRoom) {
+      return res.status(404).json({
+        success: false,
+        message: "Room not found or not belongs to user",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "user room delete successfully",
+      data: updateRoomUser,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      error: error,
+    });
+  }
+};
+
 export const roomControllers = {
   getAllRoom,
   getSingleRoom,
   createRoomUser,
   getRoomUser,
   updateRoomUser,
+  deleteUserRoom,
 };
