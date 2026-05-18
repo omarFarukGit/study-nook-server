@@ -4,6 +4,7 @@ import cors from "cors";
 
 import connectDB from "./config/db.js";
 import { RoomRouter } from "./routes/roomRoutes.js";
+import { bookingRoter } from "./routes/bookingRoutes.js";
 const app = express();
 const port = process.env.PORT || 3002;
 
@@ -15,7 +16,8 @@ app.get("/", (req, res) => {
 });
 
 //api
-app.use('/api/study-nook',RoomRouter)
+app.use("/api/study-nook", RoomRouter);
+app.use("/api/study-nook", bookingRoter);
 
 await connectDB();
 app.listen(port, () => {
