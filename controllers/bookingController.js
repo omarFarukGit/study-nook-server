@@ -47,7 +47,40 @@ const createUserBooking = async (req, res) => {
   }
 };
 
+const updataUserbookingStatus = async (req, res) => {
+  const { userId, id } = req.params;
+  const { status } = req.body;
+
+  try {
+    const updatedRoom = await BookingModel.findOneAndUpdate(
+      { userId: userId, _id: id },
+      { $set: req.body },
+      { new: true },
+    );
+
+    if (!updatedRoom) {
+      return res.status(404).json({
+        success: false,
+        message: "Room not found or not belongs to bookings",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "user bookig status update by user successfully",
+      data: updatedRoom,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      error: error,
+    });
+  }
+};
+
 export const bookingController = {
   getAllBooking,
   createUserBooking,
+  updataUserbookingStatus,
 };
