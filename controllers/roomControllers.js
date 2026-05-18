@@ -80,11 +80,11 @@ const createRoomUser = async (req, res) => {
 };
 
 const getRoomUser = async (req, res) => {
-  const { id } = req.params;
+  const { userId } = req.params;
   console.log(req.params);
 
   try {
-    const result = await RoomModel.find({ userId: id });
+    const result = await RoomModel.find({ userId: userId });
     res.status(200).json({
       success: true,
       message: "user room get successfully",
@@ -100,11 +100,27 @@ const getRoomUser = async (req, res) => {
 };
 
 const updateRoomUser = async (req, res) => {
+  const { userId, id } = req.params;
+  console.log("userId:", userId, "id", id);
+
   try {
+    const updatedRoom = await RoomModel.findOneAndUpdate(
+      { userId: userId, _id: id },
+      { $set: req.body },
+      { new: true },
+    );
+
+    if (!updatedRoom) {
+      return res.status(404).json({
+        success: false,
+        message: "Room not found or not belongs to user",
+      });
+    }
+
     res.status(200).json({
       success: true,
       message: "user room update by user successfully",
-      data: result,
+      data: updateRoomUser,
     });
   } catch (error) {
     res.status(500).json({
