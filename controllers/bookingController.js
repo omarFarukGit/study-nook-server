@@ -79,8 +79,28 @@ const updataUserbookingStatus = async (req, res) => {
   }
 };
 
+const userBookings = async (req, res) => {
+  const { userId } = req.params;
+  const result = await BookingModel.find({ userId: userId });
+
+  try {
+    res.status(200).json({
+      success: true,
+      message: "all booking get successfully",
+      data: result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      error: error,
+    });
+  }
+};
+
 export const bookingController = {
   getAllBooking,
   createUserBooking,
   updataUserbookingStatus,
+  userBookings,
 };

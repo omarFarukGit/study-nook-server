@@ -9,5 +9,6 @@ router.patch(
   "/booking/room/:userId/booking/:id",
   bookingController.updataUserbookingStatus,
 );
+router.get("/bookings/:userId", bookingController.userBookings);
 
 export const bookingRoter = router;
