@@ -1,9 +1,36 @@
 import RoomModel from "../models/roomModels.js";
 
-const getAllRoom = async (req, res) => {
-  const result = await RoomModel.find();
+// const getAllRoom = async (req, res) => {
+//   const result = await RoomModel.find();
 
+//   try {
+//     res.status(200).json({
+//       success: true,
+//       message: "all room get successfully",
+//       data: result,
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       success: false,
+//       message: error.message,
+//       error: error,
+//     });
+//   }
+// };
+
+const getAllRoom = async (req, res) => {
   try {
+    const search = req.query.search || "";
+
+    const query = {
+      roomName: {
+        $regex: search,
+        $options: "i",
+      },
+    };
+
+    const result = await RoomModel.find(query);
+
     res.status(200).json({
       success: true,
       message: "all room get successfully",
