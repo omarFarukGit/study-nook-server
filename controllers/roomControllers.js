@@ -20,14 +20,18 @@ import RoomModel from "../models/roomModels.js";
 
 const getAllRoom = async (req, res) => {
   try {
-    const search = req.query.search || "";
+    const search = req.query.search?.trim();
 
-    const query = {
-      roomName: {
-        $regex: search,
-        $options: "i",
-      },
-    };
+    let query = {};
+
+    if (search) {
+      query = {
+        roomName: {
+          $regex: search,
+          $options: "i",
+        },
+      };
+    }
 
     const result = await RoomModel.find(query);
 
