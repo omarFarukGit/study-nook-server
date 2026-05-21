@@ -23,6 +23,35 @@ const createUserBooking = async (req, res) => {
     req.body;
 
   try {
+    // ❌ same room + overlapping time check
+    const existingBooking = await BookingModel.findOne({
+      roomName,
+      date,
+      $or: [
+        {
+          startTime: { $lt: endTime },
+          endTime: { $gt: startTime },
+        },
+      ],
+    });
+
+    // already booked
+    if (existingBooking) {
+      return res.status(400).json({
+        success: false,
+        message: "This room is already booked at this time",
+      });
+    }
+
+    // ❌ same start/end time
+    if (startTime === endTime) {
+      return res.status(400).json({
+        success: false,
+        message: "Start time and end time cannot be same",
+      });
+    }
+
+    // ✅ create booking
     const result = await BookingModel.create({
       userId,
       image,
@@ -33,9 +62,10 @@ const createUserBooking = async (req, res) => {
       cost,
       status,
     });
+
     res.status(200).json({
       success: true,
-      message: "added booking  successfully",
+      message: "added booking successfully",
       data: result,
     });
   } catch (error) {
