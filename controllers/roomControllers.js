@@ -110,6 +110,8 @@ const createRoomUser = async (req, res) => {
   }
 };
 
+
+
 const getRoomUser = async (req, res) => {
   const { userId } = req.params;
   console.log(req.params);

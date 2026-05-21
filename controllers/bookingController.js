@@ -112,6 +112,7 @@ const updataUserbookingStatus = async (req, res) => {
 const userBookings = async (req, res) => {
   const { userId } = req.params;
   const result = await BookingModel.find({ userId: userId });
+ 
 
   try {
     res.status(200).json({

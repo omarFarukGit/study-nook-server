@@ -15,6 +15,7 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+
 //api
 app.use("/api/study-nook", RoomRouter);
 app.use("/api/study-nook", bookingRoter);
